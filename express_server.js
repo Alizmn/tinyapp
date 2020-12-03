@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const PORT = 8080 ;
 const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser');
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
@@ -14,6 +15,14 @@ let urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
 };
+
+app.post("/login", (req, res) => {
+  // console.log(req.body.username);
+  res.cookie("username", req.body.username);
+  // let shortUrl = generateRandomString();
+  // urlDatabase[shortUrl] = req.body.longURL;
+  res.redirect("/urls");
+});
 
 app.post("/urls", (req, res) => {
   let shortUrl = generateRandomString();
