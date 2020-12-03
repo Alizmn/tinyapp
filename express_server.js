@@ -18,10 +18,12 @@ let urlDatabase = {
 };
 
 app.post("/login", (req, res) => {
-  // console.log(req.body.username);
   res.cookie('username', req.body.username);
-  // let shortUrl = generateRandomString();
-  // urlDatabase[shortUrl] = req.body.longURL;
+  res.redirect("/urls");
+});
+
+app.post("/logout", (req, res) => {
+  res.clearCookie("username");
   res.redirect("/urls");
 });
 
@@ -56,7 +58,6 @@ app.get("/urls/:shortURL", (req, res) => {
 });
 
 app.get("/urls", (req, res) => {
-  console.log(req.cookies["username"]);
   const templateVars = { urls: urlDatabase, username: req.cookies["username"] };
   res.render("urls_index", templateVars);
 });
