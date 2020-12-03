@@ -25,10 +25,6 @@ app.post("/urls/:id/delete", (req, res) => {
   console.log(req.params)
   delete urlDatabase[req.params.id];
   res.redirect("/urls");
-  // res.send("ok");
-  // let shortUrl = generateRandomString();
-  // urlDatabase[shortUrl] = req.body.longURL;
-  // res.redirect(`/urls/${shortUrl}`);
 });
 
 app.get("/u/:shortURL", (req, res) => {
