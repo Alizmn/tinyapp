@@ -11,7 +11,11 @@ app.use(cookieParser());
 const generateRandomString = () => {
   return Math.random().toString(36).substring(2, 8);
 };
-
+/*
+Password is optional
+with password: return user_id if email and password match else return false
+without password: return true if email exict else false
+*/
 const userChecker = (users, email, password) => {
   for (let user in users) {
     if (users[user].email === email && password) {
@@ -27,7 +31,7 @@ const userChecker = (users, email, password) => {
     }
   };
 };
-
+// url and user databases
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
@@ -35,23 +39,13 @@ const urlDatabase = {
 const users = {};
 
 
-
-// app.post("/login", (req, res) => {
-//   res.cookie('username', req.body.username);
-//   res.redirect("/urls");
-// });
-
+// logout handelling
 app.post("/logout", (req, res) => {
-  res.clearCookie("username");
+  res.clearCookie("user_id");
   res.redirect("/urls");
 });
 
-app.post("/urls", (req, res) => {
-  let shortUrl = generateRandomString();
-  urlDatabase[shortUrl] = req.body.longURL;
-  res.redirect(`/urls/${shortUrl}`);
-});
-
+// Delete handelling
 app.post("/urls/:id/delete", (req, res) => {
   delete urlDatabase[req.params.id];
   res.redirect("/urls");
@@ -92,16 +86,22 @@ app.get("/login", (req, res) => {
   res.render("login", templateVars);
 });
 
+// redirect to original site
 app.get("/u/:shortURL", (req, res) => {
   const longURL = urlDatabase[req.params.shortURL];
   res.redirect(longURL);
 });
 
+//creating new url and add to database
 app.get("/urls/new", (req, res) => {
   const templateVars = { user: users[req.cookies["user_id"]] };
   res.render("urls_new", templateVars);
 });
-
+app.post("/urls", (req, res) => {
+  let shortUrl = generateRandomString();
+  urlDatabase[shortUrl] = req.body.longURL;
+  res.redirect(`/urls/${shortUrl}`);
+});
 app.get("/urls/:shortURL", (req, res) => {
   const templateVars = {
     shortURL: req.params.shortURL,
@@ -116,18 +116,13 @@ app.get("/urls", (req, res) => {
   res.render("urls_index", templateVars);
 });
 
+/*Developing test*/
 app.get("/", (req, res) => {
-  res.send("Hello!");
+  res.redirect("/urls");
 });
-
 app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
-
-app.get("/hello", (req, res) => {
-  res.send("<html><body>Hello <b>World</b></body></html>\n");
-});
-
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
