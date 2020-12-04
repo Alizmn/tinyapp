@@ -12,6 +12,19 @@ function generateRandomString() {
   return Math.random().toString(36).substring(2, 8);
 }
 
+const userChecker = (users, email) => {
+  for (let user in users) {
+    // console.log(user, user.email, email);
+    if (users[user].email === email) {
+      // console.log("true");
+      return true;
+    } else {
+      // console.log("false");
+      return false;
+    }
+  };
+};
+
 let urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
@@ -55,16 +68,20 @@ app.post("/urls/:id/delete", (req, res) => {
 });
 
 app.get("/register", (req, res) => {
-  const templateVars = { username: req.cookies["username"] };
+  const templateVars = { user: users[req.cookies["user_id"]] };
   res.render("register", templateVars);
 });
 app.post("/register", (req, res) => {
   const id = generateRandomString();
   const {email, password} = req.body;
-  users[id] = {id,email,password};
-  res.cookie("user_id", id);
-  res.redirect("/urls");
-  // console.log(users);
+  if (email && password && !userChecker(users, email)) {
+    users[id] = {id,email,password};
+    res.cookie("user_id", id);
+    res.redirect("/urls");
+  } else {
+    res.status(400).send('Bad Request');
+  }
+  console.log(users);
 });
 
 app.get("/u/:shortURL", (req, res) => {
@@ -73,7 +90,7 @@ app.get("/u/:shortURL", (req, res) => {
 });
 
 app.get("/urls/new", (req, res) => {
-  const templateVars = { username: req.cookies["username"] };
+  const templateVars = { user: users[req.cookies["user_id"]] };
   res.render("urls_new", templateVars);
 });
 
@@ -81,13 +98,13 @@ app.get("/urls/:shortURL", (req, res) => {
   const templateVars = {
     shortURL: req.params.shortURL,
     longURL: urlDatabase[req.params.shortURL],
-    username: req.cookies["username"]
+    user: users[req.cookies["user_id"]]
   };
   res.render("urls_show", templateVars);
 });
 
 app.get("/urls", (req, res) => {
-  const templateVars = { urls: urlDatabase, username: req.cookies["username"] };
+  const templateVars = { urls: urlDatabase, user: users[req.cookies["user_id"]] };
   res.render("urls_index", templateVars);
 });
 

@@ -13,11 +13,11 @@
          
         <!-- login start-->
         <div class="navbar-nav">
-          <% if (username){ %>
+          <% if (user){ %>
             <!-- logout start -->
             <form class="form-inline my-2 my-lg-0" action="/logout" method="POST">
               <span style="margin-right: 1em">
-                <b> Logged In As: </b> <%= username %>
+                <b> Logged In As: </b> <%= user.email %>
               </span>
               <button type="submit" class="btn btn-outline-dark">Logout</button>
             </form>
