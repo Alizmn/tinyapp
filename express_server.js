@@ -8,48 +8,38 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
-function generateRandomString() {
+const generateRandomString = () => {
   return Math.random().toString(36).substring(2, 8);
-}
+};
 
-const userChecker = (users, email) => {
+const userChecker = (users, email, password) => {
   for (let user in users) {
-    // console.log(user, user.email, email);
-    if (users[user].email === email) {
-      // console.log("true");
+    if (users[user].email === email && password) {
+      if (users[user].password === password) {
+        return user;
+      } else {
+        return false;
+      }
+    } else if (users[user].email === email) {
       return true;
     } else {
-      // console.log("false");
       return false;
     }
   };
 };
 
-let urlDatabase = {
+const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
 };
-
 const users = {};
 
-// const users = { 
-//   "userRandomID": {
-//     id: "userRandomID", 
-//     email: "user@example.com", 
-//     password: "purple-monkey-dinosaur"
-//   },
-//  "user2RandomID": {
-//     id: "user2RandomID", 
-//     email: "user2@example.com", 
-//     password: "dishwasher-funk"
-//   }
-// }
 
 
-app.post("/login", (req, res) => {
-  res.cookie('username', req.body.username);
-  res.redirect("/urls");
-});
+// app.post("/login", (req, res) => {
+//   res.cookie('username', req.body.username);
+//   res.redirect("/urls");
+// });
 
 app.post("/logout", (req, res) => {
   res.clearCookie("username");
@@ -67,6 +57,7 @@ app.post("/urls/:id/delete", (req, res) => {
   res.redirect("/urls");
 });
 
+// Register form and authentication
 app.get("/register", (req, res) => {
   const templateVars = { user: users[req.cookies["user_id"]] };
   res.render("register", templateVars);
@@ -82,6 +73,23 @@ app.post("/register", (req, res) => {
     res.status(400).send('Bad Request');
   }
   console.log(users);
+});
+
+// login form and authentication
+app.post("/login", (req, res) => {
+console.log(req.body);
+const {email, password} = req.body;
+const auth = userChecker(users, email, password)
+if (auth) {
+  res.cookie("user_id", auth);
+  res.redirect("/urls");
+} else {
+  res.status(403).send('Forbidden');
+}
+});
+app.get("/login", (req, res) => {
+  const templateVars = { user: users[req.cookies["user_id"]] };
+  res.render("login", templateVars);
 });
 
 app.get("/u/:shortURL", (req, res) => {
