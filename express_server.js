@@ -1,3 +1,4 @@
+const {generateRandomString, userChecker, urlsForUser} = require("./tinyFunc");
 const express = require('express');
 const app = express();
 const PORT = 8080 ;
@@ -8,35 +9,12 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
-const generateRandomString = () => {
-  return Math.random().toString(36).substring(2, 8);
-};
-/*
-Password is optional
-with password: return user_id if email and password match else return false
-without password: return true if email exict else false
-*/
-const userChecker = (users, email, password) => {
-  for (let user in users) {
-    if (users[user].email === email && password) {
-      if (users[user].password === password) {
-        return user;
-      } else {
-        return false;
-      }
-    } else if (users[user].email === email) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-};
 // url and user databases
 const urlDatabase = {
-  "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
+  "b2xVn2": {longURL: "http://www.lighthouselabs.ca", userID: "ewvxwf"},
+  "9sm5xK": {longURL: "http://www.google.com", userID: "ewvxwf"}
 };
-const users = {};
+const users = { ewvxwf: { id: 'ewvxwf', email: 'a@a.com', password: '1234' } };
 
 
 // logout handelling
@@ -47,8 +25,12 @@ app.post("/logout", (req, res) => {
 
 // Delete handelling
 app.post("/urls/:id/delete", (req, res) => {
-  delete urlDatabase[req.params.id];
-  res.redirect("/urls");
+  if (urlDatabase[req.params.id].userID === req.cookies["user_id"]) {
+    delete urlDatabase[req.params.id];
+    res.redirect("/urls");
+  } else {
+    res.send("Invalid / Forbidden Request");
+  };
 });
 
 // Register form and authentication
@@ -71,7 +53,6 @@ app.post("/register", (req, res) => {
 
 // login form and authentication
 app.post("/login", (req, res) => {
-console.log(req.body);
 const {email, password} = req.body;
 const auth = userChecker(users, email, password)
 if (auth) {
@@ -86,16 +67,36 @@ app.get("/login", (req, res) => {
   res.render("login", templateVars);
 });
 
+// Edit urls
+app.post("/urls/:id", (req, res) => {
+  if (req.cookies["user_id"] === urlDatabase[req.params.id].userID) {
+    urlDatabase[req.params.id].longURL = req.body.longURL;
+    res.redirect("/urls");
+  } else {
+    res.send("Invalid / Forbidden Request");
+  };
+});
+
 // redirect to original site
 app.get("/u/:shortURL", (req, res) => {
-  const longURL = urlDatabase[req.params.shortURL];
-  res.redirect(longURL);
+  if (urlDatabase[req.params.shortURL].userID === req.cookies["user_id"]) {
+    const longURL = urlDatabase[req.params.shortURL].longURL;
+    res.redirect(longURL);
+  } else {
+    res.send("Invalid / Forbidden Request");
+  };
 });
 
 //creating new url and add to database
 app.get("/urls/new", (req, res) => {
-  const templateVars = { user: users[req.cookies["user_id"]] };
+  if (req.cookies["user_id"]) {
+    const templateVars = { user: users[req.cookies["user_id"]] };
   res.render("urls_new", templateVars);
+  } else {
+    res.redirect("/urls");
+  }
+  
+  
 });
 app.post("/urls", (req, res) => {
   let shortUrl = generateRandomString();
@@ -103,17 +104,29 @@ app.post("/urls", (req, res) => {
   res.redirect(`/urls/${shortUrl}`);
 });
 app.get("/urls/:shortURL", (req, res) => {
-  const templateVars = {
-    shortURL: req.params.shortURL,
-    longURL: urlDatabase[req.params.shortURL],
-    user: users[req.cookies["user_id"]]
+  if (urlDatabase[req.params.shortURL].userID === req.cookies["user_id"]) {
+    const templateVars = {
+      shortURL: req.params.shortURL,
+      longURL: urlDatabase[req.params.shortURL].longURL,
+      user: users[req.cookies["user_id"]]
+    };
+    res.render("urls_show", templateVars);
+  } else {
+    res.send("Invalid / forbidden Request");
   };
-  res.render("urls_show", templateVars);
+  
+  
 });
 
 app.get("/urls", (req, res) => {
-  const templateVars = { urls: urlDatabase, user: users[req.cookies["user_id"]] };
-  res.render("urls_index", templateVars);
+  const templateVars = { urls: urlsForUser(urlDatabase, req.cookies["user_id"]), user: users[req.cookies["user_id"]] };
+  if (req.cookies["user_id"]) {
+    res.render("urls_index", templateVars);
+  } else {
+    res.render("loginReq", templateVars);
+  };
+  
+  
 });
 
 /*Developing test*/
