@@ -54,14 +54,12 @@ app.post("/register", (req, res) => {
   } else {
     res.status(400).send('Bad Request');
   }
-  console.log(users);
 });
 
 // login form and authentication
 app.post("/login", (req, res) => {
 const {email, password} = req.body;
-const auth = userChecker(users, email, password)
-console.log(auth, password);
+const auth = userChecker(users, email, password);
 if (auth) {
   res.cookie("user_id", auth);
   res.redirect("/urls");
