@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+
 /* 6 characters alphanumeric generator */
 const generateRandomString = () => {
   return Math.random().toString(36).substring(2, 8);
@@ -11,17 +13,16 @@ without password: return true if email exict else false
 const userChecker = (users, email, password) => {
   for (let user in users) {
     if (users[user].email === email && password) {
-      if (users[user].password === password) {
+      if (bcrypt.compareSync(password, users[user].password)) {
         return user;
       } else {
         return false;
       }
     } else if (users[user].email === email) {
       return true;
-    } else {
-      return false;
-    }
+    };
   };
+  return false;
 };
 
 /* return an object with all data associated with a user */

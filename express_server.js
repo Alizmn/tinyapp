@@ -4,6 +4,9 @@ const app = express();
 const PORT = 8080 ;
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
+// Password bcrypt
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
@@ -15,7 +18,8 @@ const urlDatabase = {
   "b2xVn2": {longURL: "http://www.lighthouselabs.ca", userID: "ewvxwf"},
   "9sm5xK": {longURL: "http://www.google.com", userID: "ewvxwf"}
 };
-const users = { ewvxwf: { id: 'ewvxwf', email: 'a@a.com', password: '1234' } };
+const users = { 'b7s52p': { id: 'b7s52p', email: 'c@c.com', password:'$2b$10$fzx9Oj7lZamrteACTy0DputKHy8F9Zh.qawamkGGS5enfo55.ziF.' },
+'ewvxwf': { id: 'ewvxwf', email: 'b@b.com', password: '$2b$10$oa98ggui/.odNYfyFsNlHuym2Y1xHJ.7cShRAU3f4tR5OKob40JKy' } };
 
 
 // logout handelling
@@ -43,7 +47,8 @@ app.post("/register", (req, res) => {
   const id = generateRandomString();
   const {email, password} = req.body;
   if (email && password && !userChecker(users, email)) {
-    users[id] = {id,email,password};
+    const hash = bcrypt.hashSync(password, saltRounds);
+    users[id] = {id,email,password: hash};
     res.cookie("user_id", id);
     res.redirect("/urls");
   } else {
@@ -56,6 +61,7 @@ app.post("/register", (req, res) => {
 app.post("/login", (req, res) => {
 const {email, password} = req.body;
 const auth = userChecker(users, email, password)
+console.log(auth, password);
 if (auth) {
   res.cookie("user_id", auth);
   res.redirect("/urls");
@@ -135,7 +141,7 @@ app.get("/", (req, res) => {
   res.redirect("/urls");
 });
 app.get("/urls.json", (req, res) => {
-  res.json(urlDatabase);
+  res.json(users);
 });
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
