@@ -20,15 +20,15 @@ app.use(cookieSession({
 
 // url and user databases
 const urlDatabase = {
-  "bit.ly/3mWEDz5": {longURL: "http://www.lighthouselabs.ca", userID: "ewvxwf"},
-  "bit.ly/2IqViLY": {longURL: "http://www.google.com", userID: "ewvxwf"},
-  "bbc.in/2K7qnVG": {longURL: "http://www.bbc.com", userID: "ewvxwf"},
-  "cutt.ly/chElyQc": {longURL: "http://www.youtube.com", userID: "ewvxwf"},
-  "cutt.ly/UhElhwP": {longURL: "http://www.Facebook.com", userID: "ewvxwf"},
-  "cutt.ly/BhElvsP": {longURL: "http://www.instagram.com", userID: "ewvxwf"},
-  "cutt.ly/uhElQYG": {longURL: "http://www.gmail.com", userID: "ewvxwf"},
-  "cutt.ly/mhElIES": {longURL: "http://www.costco.ca", userID: "ewvxwf"},
-  "cutt.ly/fhElFE4": {longURL: "http://www.walmart.ca", userID: "ewvxwf"}
+  "3mWEDz5": {longURL: "http://www.lighthouselabs.ca", userID: "ewvxwf"},
+  "2IqViLY": {longURL: "http://www.google.com", userID: "ewvxwf"},
+  "2K7qnVG": {longURL: "http://www.bbc.com", userID: "ewvxwf"},
+  "chElyQc": {longURL: "http://www.youtube.com", userID: "ewvxwf"},
+  "UhElhwP": {longURL: "http://www.Facebook.com", userID: "ewvxwf"},
+  "BhElvsP": {longURL: "http://www.instagram.com", userID: "ewvxwf"},
+  "uhElQYG": {longURL: "http://www.gmail.com", userID: "ewvxwf"},
+  "mhElIES": {longURL: "http://www.costco.ca", userID: "ewvxwf"},
+  "fhElFE4": {longURL: "http://www.walmart.ca", userID: "ewvxwf"}
 };
 const users = { 'b7s52p': { id: 'b7s52p', email: 'c@c.com', password:'$2b$10$fzx9Oj7lZamrteACTy0DputKHy8F9Zh.qawamkGGS5enfo55.ziF.' },
 'ewvxwf': { id: 'ewvxwf', email: 'b@b.com', password: '$2b$10$oa98ggui/.odNYfyFsNlHuym2Y1xHJ.7cShRAU3f4tR5OKob40JKy' } };
