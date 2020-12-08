@@ -9,7 +9,7 @@ TinyApp allows the user to store a list of their short URLs, and modify them as 
 
 Below is  the screenshots of the final product:
 
-!["Screenshot of Home page"](https://github.com/Alizmn/tinyapp/blob/master/Docs/Home.png?raw=true)
+!["Screenshot of Home page"](https://github.com/Alizmn/tinyapp/blob/master/Docs/HomeN.png?raw=true)
 !["Screenshot of Register page"](https://github.com/Alizmn/tinyapp/blob/master/Docs/Register.png?raw=true)
 !["Screenshot of Login page"](https://github.com/Alizmn/tinyapp/blob/master/Docs/Login.png?raw=true)
 !["Screenshot of My URLs page"](https://github.com/Alizmn/tinyapp/blob/master/Docs/URLlist.png?raw=true)
