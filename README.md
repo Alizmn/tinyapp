@@ -29,8 +29,5 @@ Below is  the screenshots of the final product:
 ## Getting Started
 
 - Install all dependencies (using the `npm install` command).
-<<<<<<< HEAD
 - Run the development web server using the `node express_server.js` command.
-=======
-- Run the development web server using the `node express_server.js` command.
->>>>>>> a60adf50efc2a0df6bccb1bba43363adfa65f06d
+
