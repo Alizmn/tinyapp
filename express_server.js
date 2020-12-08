@@ -47,7 +47,7 @@ app.post("/urls/:id/delete", (req, res) => {
 
 // Register form and authentication
 app.get("/register", (req, res) => {
-  const templateVars = { user: users[req.session["user_id"]] };
+  const templateVars = { user: users[req.session["user_id"]], url: null };
   res.render("register", templateVars);
 });
 app.post("/register", (req, res) => {
@@ -75,7 +75,7 @@ if (auth) {
 }
 });
 app.get("/login", (req, res) => {
-  const templateVars = { user: users[req.session["user_id"]] };
+  const templateVars = { user: users[req.session["user_id"]], url: null };
   res.render("login", templateVars);
 });
 
@@ -102,7 +102,7 @@ app.get("/u/:shortURL", (req, res) => {
 //creating new url and add to database
 app.get("/urls/new", (req, res) => {
   if (req.session["user_id"]) {
-    const templateVars = { user: users[req.session["user_id"]] };
+    const templateVars = { user: users[req.session["user_id"]], url: "/urls/new" };
   res.render("urls_new", templateVars);
   } else {
     res.redirect("/urls");
@@ -120,7 +120,8 @@ app.get("/urls/:shortURL", (req, res) => {
     const templateVars = {
       shortURL: req.params.shortURL,
       longURL: urlDatabase[req.params.shortURL].longURL,
-      user: users[req.session["user_id"]]
+      user: users[req.session["user_id"]],
+      url: "/urls"
     };
     res.render("urls_show", templateVars);
   } else {
@@ -131,7 +132,10 @@ app.get("/urls/:shortURL", (req, res) => {
 });
 
 app.get("/urls", (req, res) => {
-  const templateVars = { urls: urlsForUser(urlDatabase, req.session["user_id"]), user: users[req.session["user_id"]] };
+  const templateVars = { urls: urlsForUser(urlDatabase, req.session["user_id"]),
+  user: users[req.session["user_id"]],
+  url: "/urls"
+};
   if (req.session["user_id"]) {
     res.render("urls_index", templateVars);
   } else {
@@ -143,7 +147,8 @@ app.get("/urls", (req, res) => {
 
 /*Developing test*/
 app.get("/", (req, res) => {
-  res.redirect("/urls");
+  const templateVars = { user: users[req.session["user_id"]], url: "/urls/new" };
+  res.render("home", templateVars);
 });
 app.get("/urls.json", (req, res) => {
   res.json(users);
