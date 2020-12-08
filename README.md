@@ -9,12 +9,12 @@ TinyApp allows the user to store a list of their short URLs, and modify them as 
 
 Below is  the screenshots of the final product:
 
-!["Screenshot of Home page"](https://github.com/Alizmn/tinyapp/blob/master/docs/Home.png?raw=true)
-!["Screenshot of Register page"](https://github.com/Alizmn/tinyapp/blob/master/docs/Register.png?raw=true)
-!["Screenshot of Login page"](https://github.com/Alizmn/tinyapp/blob/master/docs/Login.png?raw=true)
-!["Screenshot of My URLs page"](https://github.com/Alizmn/tinyapp/blob/master/docs/URLlist.png?raw=true)
-!["Screenshot of Create Tiny URLs page"](https://github.com/Alizmn/tinyapp/blob/master/docs/NewURL.png?raw=true)
-!["Screenshot of a Edit page"](https://github.com/Alizmn/tinyapp/blob/master/docs/Edit.png?raw=true)
+!["Screenshot of Home page"](https://github.com/Alizmn/tinyapp/blob/master/Docs/Home.png?raw=true)
+!["Screenshot of Register page"](https://github.com/Alizmn/tinyapp/blob/master/Docs/Register.png?raw=true)
+!["Screenshot of Login page"](https://github.com/Alizmn/tinyapp/blob/master/Docs/Login.png?raw=true)
+!["Screenshot of My URLs page"](https://github.com/Alizmn/tinyapp/blob/master/Docs/URLlist.png?raw=true)
+!["Screenshot of Create Tiny URLs page"](https://github.com/Alizmn/tinyapp/blob/master/Docs/NewURL.png?raw=true)
+!["Screenshot of a Edit page"](https://github.com/Alizmn/tinyapp/blob/master/Docs/Edit.png?raw=true)
 
 
 ## Dependencies
