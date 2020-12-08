@@ -3,7 +3,6 @@ const express = require('express');
 const app = express();
 const PORT = 8080 ;
 const bodyParser = require("body-parser");
-// const cookieParser = require('cookie-parser');
 const cookieSession = require('cookie-session');
 
 
@@ -14,7 +13,6 @@ const saltRounds = 10;
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-// app.use(cookieParser());
 app.use(cookieSession({
   name: 'session',
   keys: ['key1', 'key2']
@@ -22,8 +20,15 @@ app.use(cookieSession({
 
 // url and user databases
 const urlDatabase = {
-  "b2xVn2": {longURL: "http://www.lighthouselabs.ca", userID: "ewvxwf"},
-  "9sm5xK": {longURL: "http://www.google.com", userID: "ewvxwf"}
+  "bit.ly/3mWEDz5": {longURL: "http://www.lighthouselabs.ca", userID: "ewvxwf"},
+  "bit.ly/2IqViLY": {longURL: "http://www.google.com", userID: "ewvxwf"},
+  "bbc.in/2K7qnVG": {longURL: "http://www.bbc.com", userID: "ewvxwf"},
+  "cutt.ly/chElyQc": {longURL: "http://www.youtube.com", userID: "ewvxwf"},
+  "cutt.ly/UhElhwP": {longURL: "http://www.Facebook.com", userID: "ewvxwf"},
+  "cutt.ly/BhElvsP": {longURL: "http://www.instagram.com", userID: "ewvxwf"},
+  "cutt.ly/uhElQYG": {longURL: "http://www.gmail.com", userID: "ewvxwf"},
+  "cutt.ly/mhElIES": {longURL: "http://www.costco.ca", userID: "ewvxwf"},
+  "cutt.ly/fhElFE4": {longURL: "http://www.walmart.ca", userID: "ewvxwf"}
 };
 const users = { 'b7s52p': { id: 'b7s52p', email: 'c@c.com', password:'$2b$10$fzx9Oj7lZamrteACTy0DputKHy8F9Zh.qawamkGGS5enfo55.ziF.' },
 'ewvxwf': { id: 'ewvxwf', email: 'b@b.com', password: '$2b$10$oa98ggui/.odNYfyFsNlHuym2Y1xHJ.7cShRAU3f4tR5OKob40JKy' } };
